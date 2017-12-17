@@ -35,11 +35,7 @@
             <version>1.9.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.rometools/rome-fetcher -->
-        <dependency>
-            <groupId>com.rometools</groupId>
-            <artifactId>rome-fetcher</artifactId>
-            <version>1.9.0</version>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>
