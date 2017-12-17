@@ -32,33 +32,37 @@ public class RssController {
         SyndFeedInput input = new SyndFeedInput();
         try {
             URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
-            SyndFeed feed = input.build(new XmlReader(feedURL));
+            SyndFeed feed = input.build(new XmlReader(feedURL));    //Tutaj przechowujemy caly feed kanalu
 
             //Petla for-each przechodzimy po kolejnych pozycjach
-            for (Object o: feed.getEntries()){
-                SyndEntry entry = (SyndEntry) o;
+            for (SyndEntry entry: feed.getEntries()){
 
                 //Wydzielanie opisu/ pozbywanie sie linkow/obrazkow
-                String line = entry.getDescription().getValue(); //Wartosc pola description obecnej pozycji
-                /*int firstPosition = line.indexOf("</a>");
-                String description = line.substring(firstPosition);
-                description = description.replace("</a>","");
-                int lastPosition = description.lastIndexOf("</p>");
-                description = description.substring(0,lastPosition);*/
-                //System.out.println(line.substring(line.indexOf("<img")));
+                String line = entry.getDescription().getValue();
+                String description = line;     //Do przechowywania opisu przefiltrowanego
+                if (line.contains("</a>")) {
+                    int firstPosition = line.indexOf("</a>");
+                    description = line.substring(firstPosition);
+                    description = description.replace("</a>", "");
+                    int lastPosition = description.lastIndexOf("</p>");
+                    description = description.substring(0, lastPosition);
+                }
 
-                feeds.add(new RssFeed(entry.getTitle(), line, entry.getPublishedDate().toString(), entry.getCategories().toString()));
+                //Po przefiltrowaniu mozemy bezpiecznie dodac obiekt do kolekcji
+                feeds.add(new RssFeed(entry.getTitle(), description, entry.getPublishedDate().toString(), entry.getCategories().toString()));
             }
+
+            LOGGER.info("### Poprawnie wczytano wszystkie pozycje");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         //Testy
         System.out.println("Teraz... Dane...");
-        System.out.println("Data publikacji: " + feeds.get(2).getPublicationDate());
-        System.out.println("Kategoria : " + feeds.get(0).getCategory());
-        System.out.println("Tytul: " + feeds.get(2).getTitle());
-        //System.out.println("Opis: " + feeds.get(2).getDescription());
+        System.out.println("Data publikacji: " + feeds.get(0).getPublicationDate());
+        //System.out.println("Kategoria : " + feeds.get(2).getCategory());
+        System.out.println("Tytul: " + feeds.get(0).getTitle());
+        System.out.println("Opis: " + feeds.get(0).getDescription());
         final RssDto rssDto = new RssDto(feeds);
 
 
