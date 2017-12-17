@@ -28,7 +28,9 @@ public class RssController {
         try {
             URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
             SyndFeed feed = input.build(new XmlReader(feedURL));    //Tutaj przechowujemy caly feed kanalu
-
+            if (RssFilter.isFeedEmpty(feed.getEntries().get(0).getTitle())){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             //Petla for-each przechodzimy po kolejnych pozycjach
             for (SyndEntry entry: feed.getEntries()){
 
