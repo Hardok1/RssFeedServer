@@ -38,24 +38,7 @@ public class RssController {
             for (SyndEntry entry: feed.getEntries()){
 
                 //Wydzielanie opisu/ pozbywanie sie linkow/obrazkow
-                String line = entry.getDescription().getValue();
-                String description;    //Do przechowywania opisu przefiltrowanego
-                if (line.contains("</a>")) {
-                    int firstPosition = line.indexOf("</a>");
-                    description = line.substring(firstPosition);
-                    description = description.replace("</a>", "");
-                    int lastPosition = description.lastIndexOf("</p>");
-                    description = description.substring(0, lastPosition);
-                } //W przypadku gdyby wpis nie zawieral znacznika "</a>"
-                else if (line.contains("<p>")) {
-                    int firstPosition = line.indexOf("<p>");
-                    description = line.substring(firstPosition);
-                    description = description.replace("<p>", "");
-                    int lastPosition = description.lastIndexOf("</p>");
-                    description = description.substring(0, lastPosition);
-                } else {
-                    description = "Nie powiodlo sie poprawne zaladowanie opisu";
-                }
+                String description = RssDescriptionFilter.filtr(entry.getDescription().getValue());
 
                 //Po przefiltrowaniu mozemy bezpiecznie dodac obiekt do kolekcji
                 feeds.add(new RssFeed(entry.getTitle(), description, entry.getPublishedDate().toString(), entry.getCategories().toString()));
@@ -69,7 +52,7 @@ public class RssController {
         //Testy
         System.out.println("Teraz... Dane...");
         System.out.println("Data publikacji: " + feeds.get(0).getPublicationDate());
-        //System.out.println("Kategoria : " + feeds.get(2).getCategory());
+        //System.out.println("Kategoria : " + feeds.get(0).getCategory());
         System.out.println("Tytul: " + feeds.get(0).getTitle());
         System.out.println("Opis: " + feeds.get(0).getDescription());
         final RssDto rssDto = new RssDto(feeds);
