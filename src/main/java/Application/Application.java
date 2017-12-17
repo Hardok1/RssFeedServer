@@ -11,9 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author ( name= "Hardok" )
  *
  */
-@Configuration
-@ComponentScan
-@EnableAutoConfiguration
+
 @SpringBootApplication
 @EnableWebMvc
 
