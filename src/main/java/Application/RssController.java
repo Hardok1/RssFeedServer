@@ -21,7 +21,7 @@ public class RssController {
 
     @RequestMapping(value = "rssINTERIA", method = RequestMethod.GET)
     public ResponseEntity<RssDto> retrieveRSS() {
-        LOGGER.info("### Otrzymano zadanie pobrania kanalu RSS !");
+        LOGGER.info("### Otrzymano zadanie pobrania kanalu RSS");
 
         ArrayList<RssFeed> feeds = new ArrayList<>(); //Kolekcja ktora bedzie przechowywac obiekty klasy RssFeed
         SyndFeedInput input = new SyndFeedInput();
@@ -29,6 +29,7 @@ public class RssController {
             URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
             SyndFeed feed = input.build(new XmlReader(feedURL));    //Tutaj przechowujemy caly feed kanalu
             if (RssFilter.isFeedEmpty(feed.getEntries().get(0).getTitle())){
+                LOGGER.info("### Nie znaleziono artykulow na kanale RSS !");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             //Petla for-each przechodzimy po kolejnych pozycjach
