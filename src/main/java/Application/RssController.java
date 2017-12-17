@@ -33,13 +33,16 @@ public class RssController {
             for (SyndEntry entry: feed.getEntries()){
 
                 //Wydzielanie opisu/ pozbywanie sie linkow/obrazkow
-                String description = RssDescriptionFilter.filtr(entry.getDescription().getValue());
+                String description = RssFilter.filterDescription(entry.getDescription().getValue());
 
                 //Uzyskanie pola zawierajacego nazwe kategorii SyndCategoryImpl.name
                 String category = entry.getCategories().get(0).getName();
 
+                //Data w formacie yyyy-MM-dd
+                String publicationDate = RssFilter.filterDate(entry.getPublishedDate());
+
                 //Po przefiltrowaniu mozemy bezpiecznie dodac obiekt do kolekcji
-                feeds.add(new RssFeed(entry.getTitle(), description, entry.getPublishedDate().toString(), category));
+                feeds.add(new RssFeed(entry.getTitle(), description, publicationDate, category));
             }
 
             LOGGER.info("### Poprawnie wczytano wszystkie pozycje");

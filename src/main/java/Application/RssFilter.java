@@ -1,8 +1,12 @@
 package Application;
 
-public class RssDescriptionFilter {
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public static String filtr(String line){
+public class RssFilter {
+
+    //Metoda sluzy oddzielaniu zbednego kodu xml'a od opisu
+    public static String filterDescription(String line){
         String description;     //Do przechowywania opisu przefiltrowanego
         if (line.contains("</a>")) {
             int firstPosition = line.indexOf("</a>");
@@ -22,5 +26,11 @@ public class RssDescriptionFilter {
         }
 
         return description;
+    }
+
+    //Metoda sluzy do zmiany formatu daty
+    public static String filterDate(Date pubDate){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(pubDate);
     }
 }
