@@ -28,24 +28,40 @@ public class RssController {
         try {
             URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
             SyndFeed feed = input.build(new XmlReader(feedURL));    //Tutaj przechowujemy caly feed kanalu
-            if (RssFilter.isFeedEmpty(feed.getEntries().get(0).getTitle())){
+            if (feed.getEntries().isEmpty()){
                 LOGGER.info("### Nie znaleziono artykulow na kanale RSS !");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             //Petla for-each przechodzimy po kolejnych pozycjach
             for (SyndEntry entry: feed.getEntries()){
 
+                //Pozyskiwanie pól razem z ich walidacją
+
+                // /Uzyskanie tytułu
+                String title = "Empty";
+                if (!(entry.getTitle().isEmpty())){
+                    title = entry.getTitle();
+                }
+
                 //Wydzielanie opisu/ pozbywanie sie linkow/obrazkow
-                String description = RssFilter.filterDescription(entry.getDescription().getValue());
+                String description = "Empty";
+                if (!(entry.getDescription().getValue().isEmpty())) {
+                    description = RssFilter.filterDescription(entry.getDescription().getValue());
+                }
 
                 //Uzyskanie pola zawierajacego nazwe kategorii SyndCategoryImpl.name
-                String category = entry.getCategories().get(0).getName();
+                String category ="Empty";
+                if(!(entry.getCategories().isEmpty())){
+                    category = entry.getCategories().get(0).getName();
+                }
 
                 //Data w formacie yyyy-MM-dd
-                String publicationDate = RssFilter.filterDate(entry.getPublishedDate());
-
+                String publicationDate = "Empty";
+                if (!(entry.getPublishedDate().toString().isEmpty())) {
+                    publicationDate = RssFilter.filterDate(entry.getPublishedDate());
+                }
                 //Po przefiltrowaniu mozemy bezpiecznie dodac obiekt do kolekcji
-                feeds.add(new RssFeed(entry.getTitle(), description, publicationDate, category));
+                feeds.add(new RssFeed(title, description, publicationDate, category));
             }
 
             LOGGER.info("### Poprawnie wczytano wszystkie pozycje");

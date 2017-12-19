@@ -33,8 +33,4 @@ public class RssFilter {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(pubDate);
     }
-
-    public static boolean isFeedEmpty(String title){
-        return title == null || title.equals("");
-    }
 }
