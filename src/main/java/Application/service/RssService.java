@@ -1,6 +1,6 @@
 package Application.service;
 
-import Application.RssDto;
+import Application.domain.dto.RssDto;
 
 
 public interface RssService {

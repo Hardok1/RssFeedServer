@@ -1,5 +1,6 @@
-package Application;
+package Application.rest;
 
+import Application.domain.dto.RssDto;
 import Application.service.RssService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,6 @@
-package Application;
+package Application.domain.dto;
+
+import Application.Application;
 
 public class RssFeed {
     private String title;

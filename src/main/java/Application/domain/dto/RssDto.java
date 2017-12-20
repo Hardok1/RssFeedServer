@@ -1,4 +1,4 @@
-package Application;
+package Application.domain.dto;
 
 import java.util.ArrayList;
 

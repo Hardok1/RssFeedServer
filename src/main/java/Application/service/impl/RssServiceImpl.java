@@ -1,8 +1,8 @@
 package Application.service.impl;
 
-import Application.RssDto;
-import Application.RssFeed;
-import Application.RssFilter;
+import Application.domain.dto.RssDto;
+import Application.domain.dto.RssFeed;
+import Application.domain.dto.RssFilter;
 import Application.service.RssService;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
