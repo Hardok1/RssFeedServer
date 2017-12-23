@@ -1,6 +1,5 @@
 package Application.domain.dto;
 
-import Application.Application;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
