@@ -5,16 +5,18 @@ public class RssFeed {
     private String description;
     private String publicationDate;
     private String category;
+    private String link;
 
     public RssFeed(){
 
     }
 
-    public RssFeed(String title, String description, String publicationDate, String category) {
+    public RssFeed(String title, String description, String publicationDate, String category, String link) {
         this.title = title;
         this.description = description;
         this.publicationDate = publicationDate;
         this.category = category;
+        this.link = link;
     }
 
     public String getTitle() {
@@ -31,5 +33,9 @@ public class RssFeed {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getLink() {
+        return link;
     }
 }

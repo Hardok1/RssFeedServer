@@ -18,16 +18,16 @@ import java.util.ArrayList;
 public class RssServiceImpl implements RssService {
 
     private boolean isRight;
+    private ArrayList<RssFeed> feeds = new ArrayList<>(); //Kolekcja ktora bedzie przechowywac obiekty klasy RssFeed
+    private SyndFeedInput input = new SyndFeedInput();
 
 
     @Override
-    public RssDto getRssFeed() {
-
-
-        ArrayList<RssFeed> feeds = new ArrayList<>(); //Kolekcja ktora bedzie przechowywac obiekty klasy RssFeed
-        SyndFeedInput input = new SyndFeedInput();
+    public RssDto getRssFeed(String url) {
         try {
-            URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
+            //URL feedURL = new URL("http://fakty.interia.pl/swiat/feed"); //Adres kanalu RSS
+            //URL feedURL = new URL("http://www.rmf24.pl/fakty/polska/feed");
+            URL feedURL = new URL(url);
             SyndFeed feed = input.build(new XmlReader(feedURL));    //Tutaj przechowujemy caly feed kanalu
             if (feed.getEntries().isEmpty()){
                 isRight=false;
@@ -60,8 +60,16 @@ public class RssServiceImpl implements RssService {
                 if (!(entry.getPublishedDate().toString().isEmpty())) {
                     publicationDate = RssFilter.filterDate(entry.getPublishedDate());
                 }
+
+                //Uzyskanie linku do artykułu
+                String link = "Empty";
+                if (!(entry.getLink()).isEmpty()){
+                    link= entry.getLink();
+                }
+
                 //Po przefiltrowaniu mozemy bezpiecznie dodac obiekt do kolekcji
-                feeds.add(new RssFeed(title, description, publicationDate, category));
+                RssFeed rssFeed = new RssFeed(title, description, publicationDate, category,link);
+                if (!feeds.contains(rssFeed)) feeds.add(rssFeed);
             }
 
         } catch (Exception e) {
